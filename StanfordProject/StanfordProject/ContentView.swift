@@ -13,7 +13,10 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            Cards
+            ScrollView{
+                Cards
+            }
+            Spacer()
             CardCountAjusters
         }
         .padding()
@@ -21,9 +24,10 @@ struct ContentView: View {
     
     
     var Cards: some View {
-        HStack {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
             ForEach(0..<cardCount, id: \.self) {
-                index in CardView(content: emojis[index], isFaceUp: false)
+                index in CardView(content: emojis[index], isFaceUp: false).aspectRatio( 2/3, contentMode: .fit)
+                
             }
         }
         .foregroundColor(.orange)
@@ -34,6 +38,7 @@ struct ContentView: View {
         HStack{
             CardRemover
             Spacer()
+            CardAdder
             
         }
         .imageScale(.large)
@@ -41,24 +46,22 @@ struct ContentView: View {
     }
     
     
-    func CardCountAjuster(by offset: Int, symbol:String) -> some View{
+    func CardCountAjuster(by offset: Int, symbol:String) -> some View { // criando uma função que retorna uma View que determina o tipo de botão chamado
         Button(action:{
                 cardCount += offset
         }, label: {
             Image(systemName: symbol)
         })
+        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
     }
     
-    var CardRemover: some View { //  var botão que remove cards
-        Button(action:{
-            if cardCount > 1{
-                cardCount -= 1
-            }
-        }, label: {
-            Image(systemName: "rectangle.stack.badge.minus.fill")
-        })
-    }
     
+    var CardRemover: some View {
+        CardCountAjuster(by: -1,symbol: "rectangle.stack.badge.minus.fill")
+    }
+    var CardAdder: some View {
+        CardCountAjuster(by: +1,symbol: "rectangle.stack.badge.plus.fill")
+    }
     
 }
 
@@ -73,16 +76,13 @@ struct CardView: View {
         ZStack {
             let base = RoundedRectangle(cornerRadius: 20)
             
-            if isFaceUp {
+            Group {
                 base.foregroundColor(.white)
                 base.strokeBorder(lineWidth: 3)
                 Text(content).font(.largeTitle)
             }
-            else {
-                ZStack {
-                    base.foregroundColor(.orange)
-                }
-            }
+            .opacity(isFaceUp ? 1 : 0)
+            base.fill().opacity(isFaceUp ? 0: 1)
         }
         .onTapGesture {
             isFaceUp.toggle()
