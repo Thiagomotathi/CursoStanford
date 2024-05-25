@@ -23,12 +23,12 @@ struct ContentView: View {
     }
     
     
-    var Cards: some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]) {
+    var Cards: some View {//um for para montar todo o grid 
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85))]) {
             ForEach(0..<cardCount, id: \.self) {
                 index in CardView(content: emojis[index], isFaceUp: false).aspectRatio( 2/3, contentMode: .fit)
-                
             }
+            .padding(.bottom, 1)
         }
         .foregroundColor(.orange)
     }
