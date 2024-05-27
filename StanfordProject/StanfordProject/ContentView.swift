@@ -13,7 +13,7 @@ struct ContentView: View {
     
     var body: some View {
         VStack {
-            ScrollView{
+            ScrollView {
                 Cards
             }
             Spacer()
@@ -23,7 +23,7 @@ struct ContentView: View {
     }
     
     
-    var Cards: some View {//um for para montar todo o grid 
+    var Cards: some View { //um for para montar todo o grid
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85))]) {
             ForEach(0..<cardCount, id: \.self) {
                 index in CardView(content: emojis[index], isFaceUp: false).aspectRatio( 2/3, contentMode: .fit)
