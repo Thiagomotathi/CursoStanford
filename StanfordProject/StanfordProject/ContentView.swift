@@ -8,9 +8,12 @@
 import SwiftUI
 
 struct ContentView: View {
+    
+    // MARK: Model - Dados da tela
     let emojis: [String] = ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"]
     @State var cardCount: Int = 4
     
+    // MARK: Views - UI da tela
     var body: some View {
         VStack {
             ScrollView {

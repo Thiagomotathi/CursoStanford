@@ -5,12 +5,19 @@
 //  Created by ThiagoMotaMachado on 25/05/24.
 //
 
-import Foundation
-func createCardContent(forPairAtIndex index: Int) -> String {
+import SwiftUI
+
+func createCardContent(forPairAtIndex index: Int) -> String { // função global
     return ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"][index]
 }
+
 class EmojiMemoryGame {
-    private var model = MemoryGame<String>(numberOfPairsOfCards: 4, cardContentFActory: createCardContent ) //é uma var privada para que apenas esse arquivo se preocupe com ela / (set) para controlar oq?
+    private var model: MemoryGame<String> = MemoryGame(
+        numberOfPairsOfCards: 4, 
+        cardContentFActory: { pairIndex in
+            return ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"][pairIndex]
+        }
+    )
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
