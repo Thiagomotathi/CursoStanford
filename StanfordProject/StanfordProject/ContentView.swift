@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct ContentView: View {
-    
+     
     // MARK: Model - Dados da tela
-    let emojis: [String] = ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"]
-    @State var cardCount: Int = 4
+    let emojis: [String] = ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"] //um array de strings
+    @State var cardCount: Int = 6
     
     // MARK: Views - UI da tela
-    var body: some View {
+    var body: some View { // declaração da view que corresponde ao acesso do user
         VStack {
             ScrollView {
                 Cards
@@ -27,7 +27,7 @@ struct ContentView: View {
     
     
     var Cards: some View { //um for para montar todo o grid
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85))]) {
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85))]) { // declaraçào de elementos dinâmicos em grid
             ForEach(0..<cardCount, id: \.self) {
                 index in CardView(content: emojis[index], isFaceUp: false).aspectRatio( 2/3, contentMode: .fit)
             }
@@ -42,7 +42,6 @@ struct ContentView: View {
             CardRemover
             Spacer()
             CardAdder
-            
         }
         .imageScale(.large)
         .font(.largeTitle)
@@ -59,10 +58,10 @@ struct ContentView: View {
     }
     
     
-    var CardRemover: some View {
+    var CardRemover: some View {// declaração do botão de remover
         CardCountAjuster(by: -1,symbol: "rectangle.stack.badge.minus.fill")
     }
-    var CardAdder: some View {
+    var CardAdder: some View {// declaração do botão de adicionar
         CardCountAjuster(by: +1,symbol: "rectangle.stack.badge.plus.fill")
     }
     
@@ -71,7 +70,7 @@ struct ContentView: View {
 
 
 
-struct CardView: View {
+struct CardView: View {// colocando a base do processo de formação dos cards
     let content: String
     @State var isFaceUp = false
     

@@ -11,7 +11,7 @@ func createCardContent(forPairAtIndex index: Int) -> String { // função global
     return ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"][index]
 }
 
-class EmojiMemoryGame {
+class EmojiMemoryGame { //TODO:  procurar como que funciona a implementação de classes em swiftUi !!!!
     private var model: MemoryGame<String> = MemoryGame(
         numberOfPairsOfCards: 4, 
         cardContentFActory: { pairIndex in
@@ -27,3 +27,10 @@ class EmojiMemoryGame {
         model.choose(card)
     }
 }
+
+
+//import SwiftUI
+//
+//class EmojiMemoryGame {
+//    var model: MemoryGame<String>
+//}
