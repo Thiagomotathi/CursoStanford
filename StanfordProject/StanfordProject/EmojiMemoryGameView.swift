@@ -11,23 +11,23 @@ struct EmojiMemoryGameView: View {
     
     // MARK: - Views - UI da tela
     
-    var body: some View {// declaração da view que corresponde ao acesso do user
+    var body: some View { // declaração da view que corresponde ao acesso do user
         VStack {
-            ScrollView {
+            ScrollView {// para garantir o scroll dos cards
                 Cards
             }
-            Button("Shuflle") {
+            Button("Shuffle") {
                 viewModel.shuffle() // atualiza a view depois de embaralhar os cards
             }
         }
         .padding()
     }
-        
+    
         
     var Cards: some View { // um for para montar todo o grid
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85),spacing: 0)],spacing: 0) { // declaraçào de elementos dinâmicos em grid
-            ForEach(viewModel.cards.indices, id: \.self) { index in
-                CardView(viewModel.cards[index])
+            ForEach(viewModel.cards.indices, id: \.self) { index in //dispõe os cards na View
+                CardView(viewModel.cards[index]) //passa o indice e lê o card
                     .aspectRatio( 2/3, contentMode: .fit)
                     .padding(4)
             }
@@ -37,7 +37,7 @@ struct EmojiMemoryGameView: View {
 }
         
 struct CardView: View { // colocando a base do processo de formação dos cards
-    let card: MemoryGame<String>.Card
+    let card: MemoryGame<String>.Card //var constante / genérica com duas partes
     
     init(_ card: MemoryGame<String>.Card) {
         self.card = card
