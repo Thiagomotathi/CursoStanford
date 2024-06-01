@@ -9,9 +9,11 @@ import SwiftUI
 
 @main
 struct StanfordProjectApp: App {
+    @StateObject var game = EmojiMemoryGame() // para permitir que sejam criados varios games
+    
     var body: some Scene {
         WindowGroup {
-            EmojiMemoryGameView()
+            EmojiMemoryGameView(viewModel: game)
         }
     }
 }

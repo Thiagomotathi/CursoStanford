@@ -35,8 +35,15 @@ struct MemoryGame<CardContent> { //TODO: ler sobre generics na documentação do
         }
     }
     
-    func choose(_ card: Card) {
-        
+    mutating func choose(_ card: Card) {
+//        let chosenIndex = index(card)
+//        cards[chosenIndex].isFaceUp.toggle()
+//        print("\(cards)")
+    }
+    
+    mutating func shuffle() {
+        cards.shuffle()
+        print(cards)
     }
     
     struct Card {

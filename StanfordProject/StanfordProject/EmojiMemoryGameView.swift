@@ -7,7 +7,7 @@
 import SwiftUI
 
 struct EmojiMemoryGameView: View {
-    var viewModel: EmojiMemoryGame = EmojiMemoryGame() //essa var aponta para uma instancia da classe EmojiMEmoryGame
+    @ObservedObject var viewModel: EmojiMemoryGame  //essa var aponta para uma instancia da classe EmojiMEmoryGame / é obsevable prq se algo mudar essa view é redesenhada
     
     // MARK: - Views - UI da tela
     
@@ -17,10 +17,10 @@ struct EmojiMemoryGameView: View {
                 Cards
             }
             Button("Shuflle") {
-                viewModel.shuffle()
+                viewModel.shuffle() // atualiza a view depois de embaralhar os cards
             }
-            .padding()
         }
+        .padding()
     }
         
         
@@ -63,5 +63,5 @@ struct CardView: View { // colocando a base do processo de formação dos cards
 }
 
 #Preview {
-    EmojiMemoryGameView()
+    EmojiMemoryGameView(viewModel: EmojiMemoryGame())
 }

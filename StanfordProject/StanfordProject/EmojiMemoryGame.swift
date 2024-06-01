@@ -9,7 +9,7 @@ import SwiftUI
 
 
 
-class EmojiMemoryGame {// inicialização de uma classe
+class EmojiMemoryGame: ObservableObject {// inicialização de uma classe
     private static let emojis = ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"] // emojis é uma var global
     
     private static func createMemoryGame() -> MemoryGame<String>{
@@ -21,8 +21,8 @@ class EmojiMemoryGame {// inicialização de uma classe
             }
         }
     }
-    
-    private var model = EmojiMemoryGame.createMemoryGame()
+        
+    @Published private var model = EmojiMemoryGame.createMemoryGame() // marcada como pública para indicar que algo mudou 
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
@@ -31,7 +31,7 @@ class EmojiMemoryGame {// inicialização de uma classe
     //MARK: - intents
     
     func shuffle() {
-        model.cards.shuffle()
+        model.shuffle()
     }
     
     func choose(_ card: MemoryGame<String>.Card) { //controle de acesso
