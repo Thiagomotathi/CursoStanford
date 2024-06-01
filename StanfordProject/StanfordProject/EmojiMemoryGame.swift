@@ -7,30 +7,34 @@
 
 import SwiftUI
 
-func createCardContent(forPairAtIndex index: Int) -> String { // função global
-    return ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"][index]
-}
 
-class EmojiMemoryGame { //TODO:  procurar como que funciona a implementação de classes em swiftUi !!!!
-    private var model: MemoryGame<String> = MemoryGame(
-        numberOfPairsOfCards: 4, 
-        cardContentFActory: { pairIndex in
-            return ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"][pairIndex]
+
+class EmojiMemoryGame {// inicialização de uma classe
+    private static let emojis = ["👻","🎃","🕷️","😈","💀","🕸️","🧙‍♂️","🙀","👹","😱","☠️","🍭"] // emojis é uma var global
+    
+    private static func createMemoryGame() -> MemoryGame<String>{
+        return MemoryGame(numberOfPairsOfCards: 16) { pairIndex in
+            if emojis.indices.contains(pairIndex) {
+                return emojis[pairIndex]
+            } else {
+                return "😢"
+            }
         }
-    )
+    }
+    
+    private var model = EmojiMemoryGame.createMemoryGame()
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards
     }
     
-    func choose(_ card: MemoryGame<String>.Card) {
+    //MARK: - intents
+    
+    func shuffle() {
+        model.cards.shuffle()
+    }
+    
+    func choose(_ card: MemoryGame<String>.Card) { //controle de acesso
         model.choose(card)
     }
 }
-
-
-//import SwiftUI
-//
-//class EmojiMemoryGame {
-//    var model: MemoryGame<String>
-//}
