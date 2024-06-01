@@ -15,7 +15,6 @@
 ////vc engana o computer
 
 
-
 import Foundation // importando a biblioteca padrão
 
 // criando uma struct de nome MemoryGame que contém dois tipos de vars / 
@@ -36,20 +35,19 @@ struct MemoryGame<CardContent> { //TODO: ler sobre generics na documentação do
     }
     
     mutating func choose(_ card: Card) {
-//        let chosenIndex = index(card)
-//        cards[chosenIndex].isFaceUp.toggle()
-//        print("\(cards)")
+//        card.isFaceUp = !card.isFaceUp
+        print("\n pressed")
     }
     
     mutating func shuffle() {
-        cards.shuffle()
-        print(cards)
+        cards.shuffle()//função para embaralhar
+        print(cards)// atualiza na view
     }
     
     struct Card {
         var isFaceUp: Bool = true //var para saber o estado do card para cima ou para baixo
         var isMatched: Bool = false // var para definir se dois cartões são iguais ou não são
-        var content: CardContent  // CardContent é um tipo de var que não importa dentro da MemoryGame /podemos colocar oq quisermos
+        var content: CardContent// CardContent é um tipo de var que não importa dentro da MemoryGame /podemos colocar oq quisermos
     }
 }
 

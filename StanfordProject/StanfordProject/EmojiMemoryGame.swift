@@ -22,7 +22,7 @@ class EmojiMemoryGame: ObservableObject {// inicialização de uma classe
         }
     }
         
-    @Published private var model = EmojiMemoryGame.createMemoryGame() // marcada como pública para indicar que algo mudou 
+    @Published private var model = EmojiMemoryGame.createMemoryGame() // marcada como pública para indicar que algo mudou
     
     var cards: Array<MemoryGame<String>.Card> {
         return model.cards

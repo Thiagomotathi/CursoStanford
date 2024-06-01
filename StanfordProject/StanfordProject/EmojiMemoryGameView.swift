@@ -13,7 +13,7 @@ struct EmojiMemoryGameView: View {
     
     var body: some View { // declaração da view que corresponde ao acesso do user
         VStack {
-            ScrollView {// para garantir o scroll dos cards
+            ScrollView { // para garantir o scroll dos cards
                 Cards
             }
             Button("Shuffle") {
@@ -30,6 +30,9 @@ struct EmojiMemoryGameView: View {
                 CardView(viewModel.cards[index]) //passa o indice e lê o card
                     .aspectRatio( 2/3, contentMode: .fit)
                     .padding(4)
+                    .onTapGesture {
+                        viewModel.choose(viewModel.cards[index])
+                    }
             }
         }
         .foregroundColor(Color.orange)
