@@ -20,8 +20,8 @@ import Foundation // importando a biblioteca padrão
 // criando uma struct de nome MemoryGame que contém dois tipos de vars / 
 // um array de tipos card e uma funçãzo que detremina o escolhido ou clicado
 
-struct MemoryGame<CardContent> { //TODO: ler sobre generics na documentação do Swift
-    private (set) var cards:Array<Card> //TODO: prq é uma private(set) var ?
+struct MemoryGame<CardContent: Equatable> { //TODO: ler sobre generics na documentação do Swift
+    private (set) var cards: Array<Card> //TODO: prq é uma private(set) var ?
     
     init(numberOfPairsOfCards: Int, cardContentFactory: (Int) -> CardContent) {
         cards = []
@@ -29,14 +29,23 @@ struct MemoryGame<CardContent> { //TODO: ler sobre generics na documentação do
         //add numberOfPairsOfCards x 2
         for pairIndex in 0..<max(2, numberOfPairsOfCards) {
             let content = cardContentFactory(pairIndex)
-            cards.append(Card(content: content))
-            cards.append(Card(content: content))
+            cards.append(Card(content: content, id: "\(pairIndex + 1)a"))
+            cards.append(Card(content: content, id: "\(pairIndex + 1)b"))
         }
     }
     
     mutating func choose(_ card: Card) {
-//        card.isFaceUp = !card.isFaceUp
-        print("\n pressed")
+        let chosenIndex = index(of: card)
+        cards[chosenIndex].isFaceUp.toggle()
+    }
+    
+    func index(of card : Card) -> Int {
+        for index in cards.indices {
+            if cards[index].id == card.id {
+                return index
+            }
+        }
+        return 0
     }
     
     mutating func shuffle() {
@@ -44,10 +53,17 @@ struct MemoryGame<CardContent> { //TODO: ler sobre generics na documentação do
         print(cards)// atualiza na view
     }
     
-    struct Card {
+    
+    //protocolos Equatable:
+    struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
+        
         var isFaceUp: Bool = true //var para saber o estado do card para cima ou para baixo
         var isMatched: Bool = false // var para definir se dois cartões são iguais ou não são
         var content: CardContent// CardContent é um tipo de var que não importa dentro da MemoryGame /podemos colocar oq quisermos
+        var id: String
+        var debugDescription: String { //para debugar e identificar principais problemas
+            "\(id):\(content)\(isFaceUp ? "up" :"down")\(isMatched ? "matched": "")"
+        }
     }
 }
 

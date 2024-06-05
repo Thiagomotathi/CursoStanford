@@ -15,6 +15,7 @@ struct EmojiMemoryGameView: View {
         VStack {
             ScrollView { // para garantir o scroll dos cards
                 Cards
+                    .animation(.default,value: viewModel.cards)//queremos animar todos os cards / por isso adicionamos animações do tipo deafault e setamos no que queremos usar essa prop
             }
             Button("Shuffle") {
                 viewModel.shuffle() // atualiza a view depois de embaralhar os cards
@@ -26,12 +27,12 @@ struct EmojiMemoryGameView: View {
         
     var Cards: some View { // um for para montar todo o grid
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85),spacing: 0)],spacing: 0) { // declaraçào de elementos dinâmicos em grid
-            ForEach(viewModel.cards.indices, id: \.self) { index in //dispõe os cards na View
-                CardView(viewModel.cards[index]) //passa o indice e lê o card
+            ForEach(viewModel.cards) { card in //dispõe os cards na View
+                CardView(card) //passa o indice e lê o card
                     .aspectRatio( 2/3, contentMode: .fit)
                     .padding(4)
                     .onTapGesture {
-                        viewModel.choose(viewModel.cards[index])
+                        viewModel.choose(card)
                     }
             }
         }
