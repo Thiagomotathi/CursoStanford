@@ -34,18 +34,28 @@ struct MemoryGame<CardContent: Equatable> { //TODO: ler sobre generics na docume
         }
     }
     
-    mutating func choose(_ card: Card) {
-        let chosenIndex = index(of: card)
-        cards[chosenIndex].isFaceUp.toggle()
+    //a var precisa ser opcional porque quando o jogo começa não há nehum index definido pois todas as cartas estão viradas para baixo
+    var indexOfTheOneAndOnlyFaceUpCard : Int? {
+        get { cards.indices.filter { index in cards[index].isFaceUp }.only }
+        set { cards.indices.forEach { cards[$0].isFaceUp = (newValue == $0) } }
     }
     
-    func index(of card : Card) -> Int {
-        for index in cards.indices {
-            if cards[index].id == card.id {
-                return index
+    
+    mutating func choose(_ card: Card) {
+        if let chosenIndex = cards.firstIndex(where: { $0.id == card.id}) {
+            if !cards[chosenIndex].isFaceUp && !cards[chosenIndex].isMatched {
+                if let potentialMatchIndex = indexOfTheOneAndOnlyFaceUpCard {
+                    if (cards[chosenIndex].content == cards[potentialMatchIndex].content) {
+                        //then we have a match!!!
+                        cards[chosenIndex].isMatched = true
+                        cards[potentialMatchIndex].isMatched = true
+                    }
+                } else {
+                    indexOfTheOneAndOnlyFaceUpCard = chosenIndex
+                }
+                cards[chosenIndex].isFaceUp = true  //Use this method to toggle a Boolean value from T / F
             }
         }
-        return 0
     }
     
     mutating func shuffle() {
@@ -57,7 +67,7 @@ struct MemoryGame<CardContent: Equatable> { //TODO: ler sobre generics na docume
     //protocolos Equatable:
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
         
-        var isFaceUp: Bool = true //var para saber o estado do card para cima ou para baixo
+        var isFaceUp: Bool = false //var para saber o estado do card para cima ou para baixo
         var isMatched: Bool = false // var para definir se dois cartões são iguais ou não são
         var content: CardContent// CardContent é um tipo de var que não importa dentro da MemoryGame /podemos colocar oq quisermos
         var id: String
@@ -67,3 +77,8 @@ struct MemoryGame<CardContent: Equatable> { //TODO: ler sobre generics na docume
     }
 }
 
+extension Array {
+    var only : Element? {
+       count == 1 ? first : nil
+    }
+}

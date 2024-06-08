@@ -23,7 +23,6 @@ struct EmojiMemoryGameView: View {
         }
         .padding()
     }
-    
         
     var Cards: some View { // um for para montar todo o grid
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 85),spacing: 0)],spacing: 0) { // declaraçào de elementos dinâmicos em grid
@@ -31,7 +30,7 @@ struct EmojiMemoryGameView: View {
                 CardView(card) //passa o indice e lê o card
                     .aspectRatio( 2/3, contentMode: .fit)
                     .padding(4)
-                    .onTapGesture {
+                    .onTapGesture {//transforma cada card em um botão /executa uma func
                         viewModel.choose(card)
                     }
             }
@@ -63,6 +62,7 @@ struct CardView: View { // colocando a base do processo de formação dos cards
             base.fill()
                 .opacity(card.isFaceUp ? 0: 1)
         }
+        .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
 
