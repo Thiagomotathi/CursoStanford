@@ -8,36 +8,38 @@ import SwiftUI
 
 struct EmojiMemoryGameView: View {
     @ObservedObject var viewModel: EmojiMemoryGame  //essa var aponta para uma instancia da classe EmojiMEmoryGame / é obsevable prq se algo mudar essa view é redesenhada
+    private let aspectRatio : CGFloat = 2/3
     
     // MARK: - Views - UI da tela
     
     var body: some View { // declaração da view que corresponde ao acesso do user
         VStack {
-            ScrollView { // para garantir o scroll dos cards
-                Cards
-                    .animation(.default,value: viewModel.cards)//queremos animar todos os cards / por isso adicionamos animações do tipo deafault e setamos no que queremos usar essa prop
-            }
-            Button("Shuffle") {
+                cards
+                    .animation(.default,value: viewModel.cards)
+//                    .background(Color.red)
+//            .background(Color.gray)
+             Button("Shuffle") {
                 viewModel.shuffle() // atualiza a view depois de embaralhar os cards
             }
+//            .background(Color.blue)
         }
         .padding()
+//        .background(Color.yellow)
     }
-        
-    var Cards: some View { // um for para montar todo o grid
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85),spacing: 0)],spacing: 0) { // declaraçào de elementos dinâmicos em grid
-            ForEach(viewModel.cards) { card in //dispõe os cards na View
-                CardView(card) //passa o indice e lê o card
-                    .aspectRatio( 2/3, contentMode: .fit)
-                    .padding(4)
-                    .onTapGesture {//transforma cada card em um botão /executa uma func
-                        viewModel.choose(card)
-                    }
-            }
+    
+    
+    private var cards: some View { // um for para montar todo o grid
+        AspectVgrid(items: viewModel.cards, aspectRatio: aspectRatio ) { card in
+            CardView(card) //passa o indice e lê o card
+                .padding(4)
+                .onTapGesture { //transforma cada card em um botão /executa uma func
+                    viewModel.choose(card)
+                }
         }
         .foregroundColor(Color.orange)
     }
 }
+
         
 struct CardView: View { // colocando a base do processo de formação dos cards
     let card: MemoryGame<String>.Card //var constante / genérica com duas partes
@@ -65,6 +67,7 @@ struct CardView: View { // colocando a base do processo de formação dos cards
         .opacity(card.isFaceUp || !card.isMatched ? 1 : 0)
     }
 }
+
 
 #Preview {
     EmojiMemoryGameView(viewModel: EmojiMemoryGame())
