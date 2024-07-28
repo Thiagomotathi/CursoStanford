@@ -66,8 +66,7 @@ struct MemoryGame<CardContent: Equatable> { //TODO: ler sobre generics na docume
     
     //protocolos Equatable:
     struct Card: Equatable, Identifiable, CustomDebugStringConvertible {
-        
-        var isFaceUp: Bool = false //var para saber o estado do card para cima ou para baixo
+        var isFaceUp: Bool = true //var para saber o estado do card para cima ou para baixo
         var isMatched: Bool = false // var para definir se dois cartões são iguais ou não são
         var content: CardContent// CardContent é um tipo de var que não importa dentro da MemoryGame /podemos colocar oq quisermos
         var id: String
